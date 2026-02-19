@@ -490,7 +490,7 @@ Notes:
  * ------------------------*/
 async function callOpenAIChatCompletions({ apiKey, model, promptText }){
   const body = {
-    model,
+    "gpt-4o-mini",
     messages: [
       { role: "system", content: "You output only valid JSON objects." },
       { role: "user", content: promptText }
