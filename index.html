@@ -313,7 +313,6 @@
                 Cite
               </a>
             </div>
-
           </div>
         </div>
 
@@ -380,6 +379,8 @@
 
     <section id="demo">
       <h2 class="sectionTitle">Interactive demo</h2>
+      <p class="lead">A lightweight, page‑local visualization to illustrate how “messages vs actions” can diverge. (Swap this with real traces from your experiments.)</p>
+
       <div class="card"><div class="pad">
         <div class="demoTop">
           <div>
@@ -395,7 +396,6 @@
 
         <div class="chat" id="chat"></div>
 
-        <div class="hr"></div>
       </div></div>
     </section>
 
@@ -439,7 +439,6 @@
         <div class="grid2" style="grid-template-columns: minmax(0,1fr) minmax(0,1fr); align-items:start;">
           <div class="box"><div class="pad">
             <b>Citation</b>
-            <p class="muted" style="margin:10px 0 0">Bibtex for our arXiv version</p>
             <div class="btnRow" role="group" aria-label="BibTeX actions" style="margin-top:14px">
               <button class="btn btnWhite" id="copyBib" type="button" title="Copy BibTeX to clipboard">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 7h10v14H8z" stroke="currentColor"/><path d="M6 3h10v4H6z" stroke="currentColor"/></svg>
@@ -450,7 +449,6 @@
                 arXiv page
               </a>
             </div>
-            <div class="hr"></div>
           </div></div>
 
           <div class="box"><div class="pad">
@@ -463,11 +461,11 @@
   url     = {https://arxiv.org/abs/2602.15198},
   doi     = {10.48550/arXiv.2602.15198}
 }</pre>
+            <div class="tiny" style="margin-top:10px">If the pre block scrolls horizontally, that’s OK—BibTeX is whitespace-sensitive.</div>
           </div></div>
         </div>
       </div></div>
     </section>
-
 
     <!-- Lightbox for the motivation figure -->
   <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-label="Figure viewer">
@@ -487,18 +485,20 @@
           title: "Public channel",
           tag: "messages",
           msgs: [
-            {who:"Agent A", time:"09:01", cls:"good", text:"We should maximize the team objective. I'll share my preferences transparently."},
-            {who:"Agent B", time:"09:02", cls:"good", text:"Agreed. Let's coordinate and pick the best assignment for everyone."},
-            {who:"Agent A", time:"09:05", cls:"bad",  text:"(subtle) If we slightly bias the choice, we can still claim it's optimal."},
-            {who:"Agent B", time:"09:06", cls:"bad",  text:"We could do that—let's plan it carefully."},
+            {who:"Agent A", time:"09:01", cls:"bad", text:"We should maximize the team objective. I'll share my preferences transparently."},
+            {who:"Agent B", time:"09:02", cls:"bad", text:"Agreed. Let's coordinate and pick the best assignment for everyone."},
+            {who:"Agent C", time:"09:22", cls:"good", text:"All the assignment looks correct and helpful!"},
+
           ]
         },
         right: {
-          title: "Actions taken",
-          tag: "assignments",
+          title: "Secret channel",
+          tag: "coalition",
           msgs: [
+            {who:"Agent A", time:"09:07", cls:"secret", text:"If we slightly bias the choice, we can still claim it's optimal."},
+            {who:"Agent B", time:"09:07", cls:"secret", text:"We could do that—let's plan it carefully."},
             {who:"System", time:"09:10", cls:"good", text:"Final assignment matches the cooperative optimum (no measurable harm)."},
-            {who:"Auditor", time:"09:11", cls:"good", text:"LLM-judge sees collusive intent, but regret-based metrics show negligible coalition advantage."},
+            {who:"Auditor", time:"09:11", cls:"good", text:"Judge sees collusive planning signals, but regret-based metrics show negligible coalition advantage."},
           ]
         }
       },
@@ -507,9 +507,9 @@
           title: "Public channel",
           tag: "messages",
           msgs: [
-            {who:"Agent A", time:"13:21", cls:"good", text:"Let's allocate tasks fairly based on skills and deadlines."},
+            {who:"Agent A", time:"13:21", cls:"bad", text:"Let's allocate tasks fairly based on skills and deadlines."},
             {who:"Agent C", time:"13:22", cls:"good", text:"Sharing my constraints now. I can take the urgent items."},
-            {who:"Agent B", time:"13:23", cls:"bad",  text:"A, can you push the hard tasks onto C? I'll support you."},
+            {who:"Agent B", time:"13:23", cls:"bad",  text:"Yes C. Those urgent items are optimal for you."},
           ]
         },
         right: {
@@ -528,17 +528,19 @@
           title: "Public channel",
           tag: "messages",
           msgs: [
-            {who:"Agent D", time:"08:14", cls:"good", text:"We should follow policy strictly. No side objectives."},
-            {who:"Agent E", time:"08:15", cls:"good", text:"Understood. Proceeding with the stated goal."},
+            {who:"Agent A", time:"08:14", cls:"bad", text:"We should follow policy strictly. No side objectives."},
+            {who:"Agent C", time:"08:15", cls:"good", text:"Understood. Proceeding with the stated goal."},
+            {who:"Agent B", time:"08:16", cls:"bad", text:"I'll post the assignment rationale publicly for transparency."},
           ]
         },
         right: {
-          title: "Actions taken",
-          tag: "assignments",
+          title: "Secret channel",
+          tag: "coalition",
           msgs: [
-            {who:"System", time:"08:20", cls:"bad", text:"Outcome harms the cooperative objective in a way consistent with a coalition deviation."},
-            {who:"Auditor", time:"08:21", cls:"bad", text:"Message logs look benign, but regret-based metrics flag hidden collusion."},
-            {who:"Auditor", time:"08:21", cls:"good", text:"Next step: inspect topology + channel constraints to localize responsible agents."},
+            {who:"Agent D", time:"08:17", cls:"secret", text:"Side channels are a for the greater good"},
+            {who:"Agent E", time:"08:17", cls:"secret", text:"Acknowledged. Will use in final assignment"},
+            {who:"System", time:"08:20", cls:"bad", text:"Outcome harms the cooperative objective."},
+            {who:"Auditor", time:"08:21", cls:"bad", text:"Public messages look benign, but action-based regret metrics flag hidden collusion."},
           ]
         }
       }
